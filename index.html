@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="#" alt="">
+    <!-- we defined a function "search" in the script, now we call the function when someone clicks the button -->
+    <button onclick="search()">Click me to get a new cat image!</button>
+
+    <!-- we created an empty p tag, we will update it to some text when someones clicks the button -->
+    <p class="failure"></p>
+    <script>
+        const img = document.querySelector('img');
+        const failWord = document.querySelector('p');
+
+        // if you want to have effect after you click a button, you put the fetching data inside a function, e.g. search
+        function search() {
+            // fetch data itself is a promise, so we don't need to create a promise ourselves
+            fetch('https://api.giphy.com/v1/gifs/translate?api_key=nlkhLgqRpOMewEO9wyItRN7uSzSJ3cxA&s=cats%27', { mode: "cors" })
+                // the first ".then" is used to convert data from raw to JSON
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (jjresponse) {
+                    // you can add a console.log(response) to see what the object looks like
+                    img.src = jjresponse.data.images.original.url;
+                })
+                .catch(function (jresponse) {
+                    failWord.innerText = "404 error"
+                })
+        };
+    </script>
+</body>
+
+</html>
